@@ -117,6 +117,14 @@ export default class CanvasDraw extends PureComponent {
       scaleExtents: props.zoomExtents,
       documentSize: { width: props.canvasWidth, height: props.canvasHeight },
     });
+    this.lazy = new LazyBrush({
+      radius: this.props.lazyRadius * window.devicePixelRatio,
+      enabled: true,
+      initialPoint: {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+      },
+    });
     this.coordSystem.attachViewChangeListener(this.applyView.bind(this));
   }
 
@@ -270,14 +278,6 @@ export default class CanvasDraw extends PureComponent {
   ///// React Lifecycle
 
   componentDidMount() {
-    this.lazy = new LazyBrush({
-      radius: this.props.lazyRadius * window.devicePixelRatio,
-      enabled: true,
-      initialPoint: {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-      },
-    });
     this.chainLength = this.props.lazyRadius * window.devicePixelRatio;
 
     this.canvasObserver = new ResizeObserver((entries, observer) =>
